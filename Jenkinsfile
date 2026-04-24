@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'executeTests', defaultValue: true, description: 'Run tests or not')
+    }
+
     environment {
         MY_VAR = "HelloFromEnv"
     }
@@ -14,6 +18,9 @@ pipeline {
         }
 
         stage('Test') {
+            when {
+                expression { params.executeTests }
+            }
             steps {
                 echo 'Testing..'
             }
